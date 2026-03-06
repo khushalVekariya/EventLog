@@ -72,7 +72,7 @@ function request_count() {
 	$t_requests_table = plugin_table( 'requests' );
 
 	$t_query = "SELECT count(*) FROM $t_requests_table";
-	$t_result = db_query( $t_query, null );
+	$t_result = db_query( $t_query );
 
 	$t_count = db_result( $t_result );
 
@@ -97,7 +97,7 @@ function request_get_page( $p_page_id, $p_per_page ) {
 	$t_offset = ( $p_page_id - 1 ) * $p_per_page;
 
 	$t_query = "SELECT * FROM $t_requests_table ORDER BY timestamp DESC";
-	$t_result = db_query( $t_query, null, $p_per_page, $t_offset );
+	$t_result = db_query( $t_query, [], $p_per_page, $t_offset );
 
 	$t_requests = array();
 
