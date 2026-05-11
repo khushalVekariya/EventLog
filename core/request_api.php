@@ -103,9 +103,9 @@ function request_get_page( $p_page_id, $p_per_page ) {
 
 	while ( $t_row = db_fetch_array( $t_result ) ) {
 		$t_request = new EventLogRequest();
-		$t_request->id = (integer)$t_row['id'];
-		$t_request->user_id = (integer)$t_row['user_id'];
-		$t_request->timestamp = (integer)$t_row['timestamp'];
+		$t_request->id = (int)$t_row['id'];
+		$t_request->user_id = (int)$t_row['user_id'];
+		$t_request->timestamp = (int)$t_row['timestamp'];
 
 		$t_requests[] = $t_request;
 	}

@@ -23,7 +23,7 @@ layout_page_begin();
 
 $t_per_page = 100;
 $t_total_count = request_count();
-$t_total_pages_count = (integer)(( $t_total_count + ( $t_per_page - 1 ) ) / $t_per_page);
+$t_total_pages_count = (int)(( $t_total_count + ( $t_per_page - 1 ) ) / $t_per_page);
 
 $t_requests = request_get_page( $f_page_id, $t_per_page );
 $t_formatted_requests = request_format( $t_requests );
