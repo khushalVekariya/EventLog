@@ -16,6 +16,20 @@ $g_log_level = LOG_EMAIL | LOG_EMAIL_RECIPIENT
 
 - Go to the event log view by clicking: Manage - Event log
 
+# REST API
+
+The plugin exposes its event log over the MantisBT REST API so that clients can
+read and clear it directly:
+
+- `GET /api/rest/plugins/EventLog/event_log?page=1&per_page=10` — returns a
+  paginated list of requests, each with its user reference and associated
+  events. Only sanitized `event_html` is returned per event (display links and
+  `@U`/`@P` user/project references already resolved); the raw event text is not
+  exposed. `per_page` is clamped to `1..100`. Requires `view_threshold`.
+- `DELETE /api/rest/plugins/EventLog/event_log` — clears the entire event log
+  (all requests and events). Returns `204 No Content`. Requires
+  `manage_threshold`.
+
 # Demo
 
 You can see a demo of it on [MantisHub](http://www.mantishub.com) where it is used to help administrators

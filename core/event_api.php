@@ -145,6 +145,23 @@ function string_process_generic_link( $p_string, $p_tag, $p_type ) {
 }
 
 /**
+ * Convert a raw event log string into sanitized display HTML: process display
+ * links, then resolve @U user and @P project references. This is the single
+ * place event text is turned into HTML, shared by the web view and the REST
+ * API so both stay consistent.
+ *
+ * @param string $p_event_text The raw event text.
+ * @return string The sanitized HTML.
+ */
+function event_string_to_html( $p_event_text ) {
+	$t_html = string_display_links( $p_event_text );
+	$t_html = string_process_generic_link( $t_html, '@U', 'user' );
+	$t_html = string_process_generic_link( $t_html, '@P', 'project' );
+
+	return $t_html;
+}
+
+/**
  * Delete all events older than a given timestamp.
  *
  * @param integer $p_timestamp The timestamp.
