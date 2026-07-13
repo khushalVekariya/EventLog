@@ -126,7 +126,10 @@ function string_process_generic_link( $p_string, $p_tag, $p_type ) {
 				$t_get_field_function = $p_type . '_get_field';
 				$t_field_name = $p_type == 'user' ? 'username' : 'name';
 				$t_value = $t_get_field_function( (int)$p_matches[2], $t_field_name );
-				return ' <strong>' . $t_value . '</strong>';
+				# Escape the resolved name: this runs after the base text has
+				# already been sanitized, so an unescaped user/project name
+				# containing markup would otherwise be injected into the output.
+				return ' <strong>' . string_html_specialchars( $t_value ) . '</strong>';
 			} else {
 				return $p_matches[2];
 			}
