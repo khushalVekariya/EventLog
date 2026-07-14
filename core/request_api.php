@@ -172,8 +172,6 @@ function request_format( $p_requests ) {
  * @return array An array with 'requests' and 'pagination' keys.
  */
 function request_rest_list( $p_page, $p_per_page ) {
-	$t_date_format = config_get( 'complete_date_format' );
-
 	$t_total = (int)request_count();
 	$t_total_pages = max( 1, (int)ceil( $t_total / $p_per_page ) );
 	$t_page = min( max( 1, (int)$p_page ), $t_total_pages );
@@ -188,7 +186,7 @@ function request_rest_list( $p_page, $p_per_page ) {
 		foreach ( $t_events as $t_event ) {
 			$t_formatted_events[] = array(
 				'id' => (int)$t_event->id,
-				'timestamp' => (int)$t_event->timestamp,
+				'timestamp' => ApiObjectFactory::datetimeString( (int)$t_event->timestamp ),
 				'event_html' => event_string_to_html( $t_event->event ),
 			);
 		}
@@ -200,8 +198,7 @@ function request_rest_list( $p_page, $p_per_page ) {
 
 		$t_formatted[] = array(
 			'id' => (int)$t_request->id,
-			'timestamp' => (int)$t_request->timestamp,
-			'timestamp_display' => date( $t_date_format, $t_request->timestamp ),
+			'timestamp' => ApiObjectFactory::datetimeString( (int)$t_request->timestamp ),
 			'user' => $t_user,
 			'events' => $t_formatted_events,
 		);
@@ -214,8 +211,6 @@ function request_rest_list( $p_page, $p_per_page ) {
 			'per_page' => (int)$p_per_page,
 			'total' => $t_total,
 			'total_pages' => $t_total_pages,
-			'has_prev' => $t_page > 1,
-			'has_next' => $t_page < $t_total_pages,
 		),
 	);
 }

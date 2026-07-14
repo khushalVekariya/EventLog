@@ -173,8 +173,8 @@ class EventLogPlugin extends MantisPlugin {
 	 * MantisHub modern UI) can read and clear the event log directly from the
 	 * plugin instead of a proxying wrapper.
 	 *
-	 *   GET    /api/rest/plugins/EventLog/event_log
-	 *   DELETE /api/rest/plugins/EventLog/event_log
+	 *   GET    /api/rest/plugins/EventLog
+	 *   DELETE /api/rest/plugins/EventLog
 	 *
 	 * @param string $p_event_name The event name (EVENT_REST_API_ROUTES).
 	 * @param array  $p_event_args The event arguments, carrying the Slim app.
@@ -184,9 +184,11 @@ class EventLogPlugin extends MantisPlugin {
 		$t_app = $p_event_args['app'];
 		$t_plugin = $this;
 
+		# The plugin name already forms the base path, so routes live at the
+		# group root ('[/]' allows an optional trailing slash).
 		$t_app->group( plugin_route_group(), function() use ( $t_app, $t_plugin ) {
-			$t_app->get(    '/event_log', array( $t_plugin, 'rest_event_log_get' ) );
-			$t_app->delete( '/event_log', array( $t_plugin, 'rest_event_log_clear' ) );
+			$t_app->get(    '[/]', array( $t_plugin, 'rest_event_log_get' ) );
+			$t_app->delete( '[/]', array( $t_plugin, 'rest_event_log_clear' ) );
 		} );
 	}
 
